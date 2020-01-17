@@ -1,24 +1,26 @@
 import React from 'react';
 import SearchBar from './SearchBar';
-import ErrorBoundary from './ErrorBoundary';
 import youtube, { baseParams } from '../apis/youtube';
 
 class App extends React.Component {
-  onTermSubmit = term => {
-    youtube.get('/search', {
-      params: {
-        ...baseParams,
-        q: term
-      }
-    });
+  state = { videos: [] };
+  onTermSubmit = async term => {
+    const response = youtube
+      .get('/search', {
+        params: {
+          ...baseParams,
+          q: term
+        }
+      })
+      .then(response => {
+        this.setState({ videos: response.data.items });
+      });
   };
 
   render() {
     return (
       <div className="ui container">
-        <ErrorBoundary>
-          <SearchBar onFormSubmit={this.onTermSubmit} />
-        </ErrorBoundary>
+        <SearchBar onFormSubmit={this.onTermSubmit} />
       </div>
     );
   }

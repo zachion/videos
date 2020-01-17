@@ -6,7 +6,7 @@ import VideoList from './VideoList';
 class App extends React.Component {
   state = { videos: [] };
   onTermSubmit = async term => {
-    const response = youtube
+    youtube
       .get('/search', {
         params: {
           ...baseParams,

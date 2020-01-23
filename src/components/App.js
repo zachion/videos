@@ -7,6 +7,10 @@ import VideoDetail from './VideoDetail';
 class App extends React.Component {
   state = { videos: [], selectedVideo: null };
 
+  componentDidMount() {
+    this.onTermSubmit('buildings');
+  }
+
   onTermSubmit = async term => {
     youtube
       .get('/search', {
@@ -16,7 +20,10 @@ class App extends React.Component {
         }
       })
       .then(response => {
-        this.setState({ videos: response.data.items });
+        this.setState({
+          videos: response.data.items,
+          selectedVideo: response.data.items[0]
+        });
       });
   };
 
